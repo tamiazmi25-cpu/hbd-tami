@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sayang! ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0b0c10;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            width: 90%;
+            padding: 20px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Kontainer Utama untuk Gambar (GIF & Foto) */
+        .media-box {
+            margin-bottom: 20px;
+            height: 220px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .media-box img {
+            height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
+            transition: opacity 0.5s ease;
+        }
+        /* Elemen Foto Spesial */
+        #photo-image {
+            display: none; /* Sembunyikan di awal, muncul di akhir */
+            object-fit: cover;
+            width: 220px;
+            height: 220px;
+            border: 4px solid #ff4d6d;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #ff4d6d;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+        }
+        #text-box {
+            font-size: 1.1rem;
+            min-height: 80px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #c9d1d9;
+        }
+        .btn {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+        .btn:hover {
+            background-color: #ff758f;
+            transform: scale(1.05);
+        }
+        /* Animasi Hati Jatuh */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: fall linear forwards;
+            opacity: 0.8;
+            user-select: none;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Musik otomatis setelah klik tombol -->
+    <audio id="backsound" src="musik.mp3" loop></audio>
+
+    <div class="container">
+        <div class="media-box">
+            <!-- Tempat GIF Beruang -->
+            <img id="gif-image" src="https://tenor.com" alt="Bbear">
+            <!-- Tempat Foto Kalian Berdua (Muncul bergantian di halaman akhir) -->
+            <img id="photo-image" src="" alt="Foto Kita">
+        </div>
+        
+        <h1 id="title">Klik Tombol di Bawah Ya! ✨</h1>
+        <div id="text-box">Ada pesan singkat buat kamu nih...</div>
+        <button class="btn" id="action-btn" onclick="nextStage()">Buka Pesan 💌</button>
+    </div>
+
+    <script>
+        // 1. EDIT SURAT / PESAN ROMANTIS ANDA DI SINI
+        const messages = [
+            "Hai kamu... Selamat bertambah usia yaa. 😊",
+            "Di hari yang spesial ini, aku cuma mau bilang terima kasih udah hadir di hidupku.",
+            "Semoga semua impianmu tercapai, selalu bahagia, dan sehat terus.",
+            "Aku punya kejutan kecil buat kamu, klik lanjut lagi ya! 💖"
+        ];
+
+        // Link animasi GIF pendukung tiap halaman surat
+        const gifs = [
+            "https://tenor.com",
+            "https://tenor.com",
+            "https://tenor.com",
+            "https://tenor.com"
+        ];
+
+        // 2. MASUKKAN LINK FOTO KALIAN DI SINI (Bisa tambah sebanyak mungkin)
+        // Ganti link contoh di bawah ini dengan URL foto asli kalian
+        const myPhotos = [
+            "https://kommodo.ai/i/Rvcj9gncFTsB3bv4tE58", // Contoh Foto 1
+            "https://kommodo.ai/i/eYlmh44A8ZmWULijtcPu", // Contoh Foto 2
+            "https://kommodo.ai/i/dTz3skryf2lTFWjSpCvN"  // Contoh Foto 3
+        ];
+
+        let currentMessageIndex = -1;
+        let charIndex = 0;
+        let isMusicPlaying = false;
+        let photoIndex = 0;
+        
+        const textBox = document.getElementById("text-box");
+        const music = document.getElementById("backsound");
+        const gifImage = document.getElementById("gif-image");
+        const photoImage = document.getElementById("photo-image");
+        const titleText = document.getElementById("title");
+        const actionBtn = document.getElementById("action-btn");
+
+        function typeText() {
+            if (charIndex < messages[currentMessageIndex].length) {
+                textBox.innerHTML += messages[currentMessageIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeText, 50);
+            }
+        }
+
+        function nextStage() {
+            if (!isMusicPlaying) {
+                music.play().catch(err => console.log("Musik tertunda sistem:", err));
+                isMusicPlaying = true;
+            }
+
+            if (currentMessageIndex < messages.length - 1) {
+                currentMessageIndex++;
+                charIndex = 0;
+                titleText.innerText = "Untuk Semesta-ku 💖";
+                actionBtn.innerText = "Lanjut  👉";
+                textBox.innerHTML = "";
+                
+                gifImage.src = gifs[currentMessageIndex];
+                typeText();
+            } else {
+                // HALAMAN AKHIR (Puncak Kejutan & Galeri Foto Berjalan)
+                titleText.innerText = "HAPPY BIRTHDAY! 🎉";
+                textBox.innerHTML = "Semoga kamu suka kejutan sederhana ini! 🥳🎈 I Love You So Much! ❤️";
+                
+                // Sembunyikan GIF, Munculkan Foto Berjalan
+                gifImage.style.display = "none";
+                photoImage.style.display = "block";
+                actionBtn.style.display = "none"; 
+                
+                // Jalankan fungsi ganti foto otomatis setiap 2.5 detik
+                startPhotoGallery();
+                
+                // Hujan hati sangat deras
+                setInterval(createHeart, 50);
+            }
+        }
+
+        // Fungsi mengganti foto otomatis
+        function startPhotoGallery() {
+            photoImage.src = myPhotos[photoIndex];
+            photoIndex = (photoIndex + 1) % myPhotos.length;
+            setTimeout(startPhotoGallery, 2500);
+        }
+
+        // Fungsi animasi hati jatuh santai di awal web
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            heart.style.fontSize = Math.random() * 20 + 10 + "px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 350);
+    </script>
+</body>
+</html>
